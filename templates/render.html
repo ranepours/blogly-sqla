@@ -17,11 +17,11 @@
   
       <form>
         <button class="btn btn-primary btn-sm"
-                formaction="/users/edit/{{user.id}}"
+                formaction="/users/{{user.id}}/edit"
         >Edit
         </button>
         <button class="btn btn-danger btn-sm"
-                formaction="/users/delete/{{user.id}}" 
+                formaction="/users/{{user.id}}/delete" 
                 formmethod="POST"
         > Delete
         </button>

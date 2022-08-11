@@ -1,4 +1,6 @@
+import datetime
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 
 db = SQLAlchemy()
 
@@ -19,7 +21,23 @@ class User(db.Model):
     last_name = db.Column(db.Text, nullable=False)
     img_url = db.Column(db.Text, default=IMG_DEFAULT)
 
+    posts = db.relationship("Post", backref="user", cascade="all, delete-orphan")
+
     @property
     def full_name(self):
         """Full name render"""
         return f"{self.first_name} {self.last_name}"
+
+class Post(db.Model):
+    """posts associated w/ users in db"""
+    __tablename__ = "posts"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    author = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    title = db.Column(db.Text, nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+
+    @property
+    def date(self):
+        return self.created_at.strftime("%a %b %-d %Y, %-I:%M %p")
