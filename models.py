@@ -33,11 +33,35 @@ class Post(db.Model):
     __tablename__ = "posts"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    author = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    author = db.Column(
+                    db.Integer, 
+                    ForeignKey('users.id'), 
+                    nullable=False)
     title = db.Column(db.Text, nullable=False)
     content = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
+    created_at = db.Column(
+                    db.DateTime, 
+                    nullable=False, 
+                    default=datetime.datetime.now)
 
     @property
     def date(self):
         return self.created_at.strftime("%a %b %-d %Y, %-I:%M %p")
+
+class Tag(db.Model):
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    name= db.Column(db.Text, nullable=False)
+
+    posts=db.relationship(
+                "Post", 
+                secondary='post_tags', 
+                backref='tags', 
+                cascade='all, delete')
+
+class PostTag(db.Model):
+    __tablename__ = "post_tags"
+
+    post_id = db.Column(db.Integer, ForeignKey('posts.id'), primary_key=True)
+    tag_id = db.Column(db.Integer, ForeignKey('tags.id'), primary_key=True)
