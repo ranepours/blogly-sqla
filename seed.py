@@ -1,4 +1,4 @@
-from models import User, Post, db
+from models import User, Post, Tag, db
 from app import app
 
 db.drop_all()
@@ -16,10 +16,17 @@ db.session.commit()
 
 pa = Post(author=1,title="Deaf?",content="You're deaf? You don't look deaf.")
 pb = Post(author=5,title="Deaf",content="You don't look ignorant but I guess you can't judge a book by it's cover right?")
-pc = Post(author=5,title="",content="")
-pd = Post(author=4,title="Buy your friends",content="At least we don't buy our friends with our daddy's bank account")
-pe = Post(author=3,title="Cheer",content="I'm not a snob, I'm just better than you are, yeah!")
-pf = Post(author=2,title="No dad",content="All because you don't have a dad OR a bank account!")
+pc = Post(author=4,title="Buy your friends",content="At least we don't buy our friends with our daddy's bank account")
+pd = Post(author=3,title="Cheer",content="I'm not a snob, I'm just better than you are, yeah!")
+pe = Post(author=2,title="No dad",content="All because you don't have a dad OR a bank account!")
 
-db.session.add_all([pa, pb, pc, pd, pe, pf])
+db.session.add_all([pa, pb, pc, pd, pe])
+db.session.commit()
+
+t1=Tag(name='deaf')
+t2=Tag(name='cheer')
+t3=Tag(name='money')
+t4=Tag(name='dad')
+
+db.session.add_all([t1,t2,t3,t4])
 db.session.commit()
